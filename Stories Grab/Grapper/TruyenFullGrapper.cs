@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Stories_Grab
 {
-    public class TruyenFullGrapper
+    public class TruyenFullGrapper : IGrapper
     {
         /// <summary>
         /// 
@@ -13,13 +13,13 @@ namespace Stories_Grab
         /// <param name="i">1</param>
         /// <param name="j">50</param>
         /// <returns></returns>
-        public List<String> GetChapterLinks(string url, int start, int end)
+        public List<string> GetChapterLinks(string url, int start, int end)
         {
-            List<String> re = new List<string>();
+            List<string> re = new List<string>();
             for (int iPage = start; iPage <= end; iPage++)
             {
                 Network network = new Network();
-                string htmlSource = network.GetPageSource(String.Format("{0}/trang-{1}", url, iPage));
+                string htmlSource = network.GetPageSource(string.Format("{0}/trang-{1}", url, iPage));
                 HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
                 htmlDoc.LoadHtml(htmlSource);
                 IEnumerable<HtmlAgilityPack.HtmlNode> _listChapterDivs = htmlDoc.DocumentNode.Descendants("ul").
@@ -60,6 +60,17 @@ namespace Stories_Grab
             }
             else
                 return null;
+        }
+
+        /// <summary>
+        /// http://truyenfull.vn/truyen-than-khong-thien-ha/chuong-1/
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public string GetCorespondingFileName(string url)
+        {
+            string[] parts = url.Split(new char[] { '/' });
+            return parts.Last() + "xhtml";
         }
     }
 }
