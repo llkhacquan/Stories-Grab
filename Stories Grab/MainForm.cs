@@ -10,7 +10,7 @@ namespace Stories_Grab
     public partial class MainForm : Form
     {
         BackgroundWorker bw;
-        LogHandler logger = new LogHandler();
+        LogHandler logger;
 
         public MainForm()
         {
@@ -25,6 +25,10 @@ namespace Stories_Grab
                 folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/Epub";
                 folderTextBox.Text = folderPath;
             }
+
+            logger = new LogHandler();
+            logger.AssignEditControl(logTextEdit);
+            logger.LogToUI = true;
         }
 
         private void startBtn_Click(object sender, EventArgs e)
@@ -44,6 +48,12 @@ namespace Stories_Grab
             bw.RunWorkerAsync();
             startBtn.Enabled = false;
             pauseBtn.Enabled = true;
+            toolStripProgressBar.Visible = true;
+        }
+
+        private void pauseBtn_Click(object sender, EventArgs e)
+        {
+            bw.CancelAsync();
         }
 
         private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -56,9 +66,10 @@ namespace Stories_Grab
         {
             startBtn.Enabled = true;
             pauseBtn.Enabled = false;
+            toolStripProgressBar.Visible = false;
         }
 
-        private void BackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             IGrapper grapper = new ISachInfo();
             string url = storyLinkText.Text;
@@ -78,6 +89,8 @@ namespace Stories_Grab
                 c.writeToFile(filePath);
                 logger.log(s + " is written");
                 bw.ReportProgress(i * 100 / chapterUrls.Count, i);
+                if (bw.CancellationPending)
+                    return;
             }
         }
 
@@ -95,6 +108,11 @@ namespace Stories_Grab
             Properties.Settings.Default.nPagesOfMenu = (int)nPagesOfMenu.Value;
             Properties.Settings.Default.sUrl = storyLinkText.Text;
             Properties.Settings.Default.Save();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            bw.CancelAsync();
         }
     }
 }

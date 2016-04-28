@@ -24,7 +24,7 @@ namespace Stories_Grab
             StringBuilder sb = new StringBuilder();
             foreach (var item in divs2.ChildNodes)
             {
-                if (item.Attributes.Contains("class") && item.Attributes["class"].Value == "ms_text")
+                if (item.Attributes.Contains("class"))
                 {
                     if (item.Attributes["class"].Value == "ms_text")
                         sb.AppendLine(item.OuterHtml);

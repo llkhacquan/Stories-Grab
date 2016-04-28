@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.startBtn = new System.Windows.Forms.Button();
-            this.content = new System.Windows.Forms.TextBox();
+            this.logTextEdit = new System.Windows.Forms.TextBox();
             this.pauseBtn = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.folderTextBox = new System.Windows.Forms.TextBox();
@@ -53,18 +53,18 @@
             this.startBtn.UseVisualStyleBackColor = true;
             this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
             // 
-            // content
+            // logTextEdit
             // 
-            this.content.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.logTextEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.content.Location = new System.Drawing.Point(12, 87);
-            this.content.Multiline = true;
-            this.content.Name = "content";
-            this.content.ReadOnly = true;
-            this.content.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.content.Size = new System.Drawing.Size(835, 399);
-            this.content.TabIndex = 1;
+            this.logTextEdit.Location = new System.Drawing.Point(12, 74);
+            this.logTextEdit.Multiline = true;
+            this.logTextEdit.Name = "logTextEdit";
+            this.logTextEdit.ReadOnly = true;
+            this.logTextEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.logTextEdit.Size = new System.Drawing.Size(835, 399);
+            this.logTextEdit.TabIndex = 1;
             // 
             // pauseBtn
             // 
@@ -76,6 +76,7 @@
             this.pauseBtn.TabIndex = 2;
             this.pauseBtn.Text = "Pause";
             this.pauseBtn.UseVisualStyleBackColor = true;
+            this.pauseBtn.Click += new System.EventHandler(this.pauseBtn_Click);
             // 
             // folderTextBox
             // 
@@ -121,6 +122,7 @@
             // 
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar.Visible = false;
             // 
             // MainForm
             // 
@@ -132,10 +134,11 @@
             this.Controls.Add(this.storyLinkText);
             this.Controls.Add(this.folderTextBox);
             this.Controls.Add(this.pauseBtn);
-            this.Controls.Add(this.content);
+            this.Controls.Add(this.logTextEdit);
             this.Controls.Add(this.startBtn);
             this.Name = "MainForm";
             this.Text = "Stories Grab";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.nPagesOfMenu)).EndInit();
             this.statusStrip.ResumeLayout(false);
@@ -148,7 +151,7 @@
         #endregion
 
         private System.Windows.Forms.Button startBtn;
-        private System.Windows.Forms.TextBox content;
+        private System.Windows.Forms.TextBox logTextEdit;
         private System.Windows.Forms.Button pauseBtn;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.TextBox folderTextBox;

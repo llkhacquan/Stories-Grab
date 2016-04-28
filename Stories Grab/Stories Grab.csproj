@@ -66,6 +66,7 @@
     <Compile Include="Chapter.cs" />
     <Compile Include="Grapper\IGrapper.cs" />
     <Compile Include="Grapper\ISachInfo.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="LogHandler.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
